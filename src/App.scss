@@ -1,3 +1,10 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 .app {
   display: flex;
   background-color: rgb(230, 228, 227);
@@ -16,22 +23,21 @@
 
   .preview{
 
+    @include flex-center;
+
     padding-top: 30px;
 
     height: 40%;
     background-color: rgb(252, 227, 231);
 
-    align-items: center;
-    justify-content: center;
-
     .preview_canvas{
       height: 60%;
-      background-color: aliceblue;
     }
 
     .preview_btn{
-      
-      margin-top: 20px;
+
+      @include flex-center;
+
       height: 40%;
 
       button{
@@ -75,13 +81,13 @@
     background-color: rgb(222, 247, 243);
 
     .setting_text{
+
+      @include flex-center;
+
       height: 30%;
       background-color: beige;
       display: flex;
       flex-direction: column; 
-
-      align-items: center;
-      justify-content: center;
 
       label{
         font-size: 15px;
@@ -114,6 +120,10 @@
           transition: 0.3s;
         }
 
+        &.text{
+          width: 450px;
+        }
+
         &.size{
           width: 50px;
         }
@@ -121,21 +131,24 @@
         &.color{
           width: 100px;
         }
+
+        &.filename{
+          width: 365px;
+        }
       }
     }
 
     .setting_color{
+
+      @include flex-center;
+
       height: 70%;
       background-color: rgb(205, 240, 208);
 
       display: flex;
       flex-direction: column;
-
-      justify-content: center;
-      align-items: center;
+      
     }
   }
-
-  
 }
 

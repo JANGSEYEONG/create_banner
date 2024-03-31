@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { CanvasProps } from '../types';
 
 const Cavas = ( props:{canvasProps:CanvasProps} ) => {
@@ -20,21 +20,48 @@ const Cavas = ( props:{canvasProps:CanvasProps} ) => {
 
   }, []);
 
+  // 설정값이 바뀌면 canvasOptions의 주소값이 계속 바뀔거라 의존 변수에 추가해야함
+  const handleDownloadClick = useCallback(()=>{
+    if(canvas){
+      const dataURL = canvas.toDataURL('image/png');
+      const downloadLink = document.createElement('a');
+      downloadLink.download = canvasOptions.fileName;
+      downloadLink.href = dataURL;
+      downloadLink.click();
+    }
+    
+
+  }, [canvas, canvasOptions]);
+
   if(ctx && canvas){
 
-    ctx.textAlign='center';
-    ctx.textBaseline = 'middle';
+    canvas.width = canvasOptions.width;
+    canvas.height = canvasOptions.height;
 
+    // 1. 배경 색 설정하기
     ctx.fillStyle = canvasOptions.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // 2. 글자 설정하기
+    
+    // 2-1) 글자 가운데 정렬
+    ctx.textAlign='center';
+    ctx.textBaseline = 'middle';
+
+    // 2-2) 글자 색 설정
     ctx.fillStyle = canvasOptions.font.color;
+
+    // 2-3) 글자 크기 및 폰트 설정
+    ctx.font = `${canvasOptions.font.size}px ${canvasOptions.font.feature}`;
+
+    // 2-4) 글자 채우기   
     ctx.fillText(canvasOptions.text, canvas.width / 2, canvas.height / 2);
   }
 
   return (
     <>
-      <canvas ref={canvasRef} width={canvasOptions.width} height={canvasOptions.height} ></canvas>
+      <canvas className='preview_canvas' ref={canvasRef}></canvas>
+      <div className='preview_btn'><button onClick={handleDownloadClick}>Download</button></div>
     </>
   );
 }

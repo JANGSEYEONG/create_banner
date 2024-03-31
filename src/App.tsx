@@ -12,43 +12,55 @@ function App() {
 
   const [color, setColor] = useState<string>('white');
   const [text, setText] = useState<string>('');
-  const [textSize, setTextSize] = useState<number>(15);
-
+  const [textSize, setTextSize] = useState<string>('15');
+  const [fileName, setFileName] = useState<string>('');
   const handleColorChange = useCallback((color:string)=>{
     setColor(color);
   },[color]);
 
   const canvasProps: CanvasProps = {
-    width: 400,
-    height: 250,
+    width: 380,
+    height: 200,
     backgroundColor: color,
     text: text,
     font:{
-      size: 100,
+      feature: 'Arial',
+      size: textSize,
       color: 'black'
-    }
+    },
+    fileName : fileName
   }
 
   const handleTextChange = useCallback((text:string)=>{
-    console.log(text)
     setText(text);
   }, [text]);
+
+  const handleTextSizeChange = useCallback((size:string)=>{
+    setTextSize(size);
+  }, [textSize]);
+
+  const handleFileNameChange = useCallback((name:string)=>{
+    setFileName(name);
+  },[fileName]);
 
   return (
     <div className='app'>
       <div className='preview'>
-        <div className='preview_canvas'><Canvas canvasProps={canvasProps}></Canvas></div>
-        <div className='preview_btn'><button>Download</button></div>
+        <Canvas canvasProps={canvasProps}></Canvas>
       </div>
       <div className='setting'>
         <div className='setting_text'>
           <div>
             <label htmlFor='textValue'></label>
-            <input onChange={e=>handleTextChange(e.target.value)} type='text' name='textValue'/>
+            <input className='text' placeholder={'텍스트를 입력해주세요.'} value={text} onChange={e=>handleTextChange(e.target.value)} type='text' name='textValue'/>          
+          </div>
+          <div>
+            <label htmlFor='filename'>저장 파일 이름</label>
+            <input className='filename' onChange={e=>handleFileNameChange(e.target.value)} type='text' name='filename' value={fileName}/>
           </div>
           <div>
             <label htmlFor='textSize'>글자 크기</label>
-            <input className='size' type='number' name='textSize' step={10}></input>
+            <input className='size' value={textSize} onChange={e=>handleTextSizeChange(e.target.value)} type='number' name='textSize' step={10}></input>
             <label htmlFor='backColor'>배경 색</label>
             <input className='color' type='text' name='backColor' value={color} disabled></input>
           </div>

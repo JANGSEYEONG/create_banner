@@ -4,9 +4,11 @@ export type CanvasProps = {
   backgroundColor: string;
   text: string;
   font : {
-    size: number;
+    feature: string;
+    size: string;
     color: string;
   }
+  fileName: string;
 }
 
 export type ColorPickerProps = {
