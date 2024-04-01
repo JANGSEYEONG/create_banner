@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { CanvasProps } from '../types';
+import { CanvasProps } from '../types/types';
 
 const Cavas = ( props:{canvasProps:CanvasProps} ) => {
 

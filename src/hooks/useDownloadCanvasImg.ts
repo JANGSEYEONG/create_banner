@@ -1,4 +1,7 @@
 import { useCallback } from "react";
+import { setLocal } from "../utils/localStorage";
+import localStorageKeys from "../enums/localStorageKeys";
+
 
 const useDownloadCanvasImg = (canvas: HTMLCanvasElement | null, fileName: string, imgDataUrl?: string) => {
 
@@ -15,6 +18,8 @@ const useDownloadCanvasImg = (canvas: HTMLCanvasElement | null, fileName: string
       downloadLink.download = fileName;
       downloadLink.href = dataURL;
       downloadLink.click();   
+    
+      setLocal(localStorageKeys.DownloadImage, dataURL);
     }
     
   }, [canvas, fileName]);

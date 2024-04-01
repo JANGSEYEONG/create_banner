@@ -1,6 +1,6 @@
 import React from 'react';
 import { CirclePicker, HuePicker, AlphaPicker } from 'react-color'; // ChromePicker,TwitterPicker
-import { ColorPickerProps } from '../types';
+import { ColorPickerProps } from '../types/types';
 
 import styles from './../assets/scss/ColorPicker.module.scss';
 
