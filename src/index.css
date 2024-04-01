@@ -1,17 +1,14 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "googleNotoSansKR";
+  src: url(./assets/fonts/NotoSansKR/NotoSansKR-Regular.ttf);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
+/* 폰트 변수 설정 */
+:root {
+  --font-googleNotoSansKR: "googleNotoSansKR";
+}
 
+/*브라우저 기본 css 해제*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -54,4 +51,9 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+/* 전체 폰트 설정 */
+body{
+	font-family: var(--font-googleNotoSansKR);
 }

@@ -1,3 +1,13 @@
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-left: 20px;
+  font-weight: bold;
+}
+
 .chkColor {
   width: 100px;
   height: 30px;
@@ -6,19 +16,15 @@
   outline: none;
   padding-left: 10px;
 
-  border-left-width: 0;
-  border-right-width: 0;
-  border-top-width: 0;
-  border-bottom-width: 1;
-
+  border-width: 0px 0px 2px 0px;
   border-radius: 10px;
 
   &:focus {
-    background-color: #a5aa8b;
+    background-color: #f7f7d2;
   }
 
   &:hover {
-    background-color: #bbd631;
+    background-color: #eff0ae;
     transition: 0.3s;
   }
 

@@ -1,4 +1,6 @@
 export type CanvasProps = {
+  canvas: HTMLCanvasElement|null;
+  setCanvas: (state:HTMLCanvasElement)=>void;
   width: number;
   height: number;
   backgroundColor: string;
@@ -12,6 +14,7 @@ export type CanvasProps = {
 }
 
 export type ColorPickerProps = {
+  name: string,
   color: string,
   handleColorChange: (color:string) => void;
 }
