@@ -1,14 +1,13 @@
-import { useCallback, useState } from "react";
+import {useCallback, useState} from 'react'
 
-const useColor = (initialColor: string):[string, (color:string)=>void]=>{
+const useColor = (initialColor: string): [string, (color: string) => void] => {
+  const [color, setColor] = useState<string>(initialColor)
 
-  const [color, setColor] = useState<string>(initialColor);
+  const handleColorChange = useCallback((color: string) => {
+    setColor(color)
+  }, [])
 
-  const handleColorChange = useCallback((color:string)=>{
-    setColor(color);
-  },[color]);
-
-  return [color, handleColorChange];
+  return [color, handleColorChange]
 }
 
-export default useColor;
+export default useColor

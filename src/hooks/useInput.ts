@@ -1,16 +1,14 @@
-import { useCallback, useState } from "react";
+import {useCallback, useState} from 'react'
 
-const useInput = (initialValue:string):[string, (newValue:string)=>void]=>{
-
-  const [value, setValue] = useState<string>(initialValue);
+const useInput = <T>(initialValue: T): [T, (newValue: T) => void] => {
+  const [value, setValue] = useState<T>(initialValue)
 
   // input 내용이 바뀔 경우
-  const handleInputChange = useCallback((newValue: string)=>{
-    setValue(newValue);
-  }, [value]);
+  const handleInputChange = useCallback((newValue: T) => {
+    setValue(newValue)
+  }, [])
 
-  return [value, handleInputChange];
-
+  return [value, handleInputChange]
 }
 
-export default useInput;
+export default useInput

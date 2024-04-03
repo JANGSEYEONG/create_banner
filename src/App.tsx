@@ -1,87 +1,64 @@
-import { useState } from 'react';
-import useInput from './hooks/useInput';
-import Canvas from './components/Canvas';
-import ColorPicker from './components/ColorPicker';
-import { CanvasProps } from './types/types';
+import useInput from './hooks/useInput'
+import useColor from './hooks/useColor'
 
-import './assets/scss/App.scss';
-import useDownloadCanvasImg from './hooks/useDownloadCanvasImg';
-import useColor from './hooks/useColor';
+import Preview from './components/Preview'
+import Setting from './components/Setting'
+
+import type {PreviewProps, SettingProps} from './types/types'
+import './assets/scss/App.scss'
 
 function App() {
-  console.log('App Render');
+  console.log('App Render')
 
-  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
+  // 상태 끌어올리기
+  const [backgroundColor, backgroundColorChange] = useColor('white')
+  const [fontColor, fontColorChange] = useColor('pink')
 
-  const [backgroundColor, backgroundColorChange] = useColor('white');
-  const [fontColor, fontColorChange] = useColor('pink');
+  const [content, contentChange] = useInput<string>('hello')
 
-  const [content, contentChange] = useInput('hello');
-  const [fontSize, fontSizeChange] = useInput('15');
-  const [fileName, fileNameChange] = useInput('');
+  const [fontStyle, fontStyleChange] = useInput<string>('normal')
+  const [fontVariant, fontVariantChange] = useInput<string>('normal')
+  const [fontWeight, fontWeightChange] = useInput<string>('100')
+  const [fontSize, fontSizeChange] = useInput<string>('75')
+  const [fontFamily, fontFamilyChange] = useInput<string>('Arial')
 
-  const [handleDownloadClick] = useDownloadCanvasImg(canvas, fileName);
+  const [fileName, fileNameChange] = useInput<string>('')
 
-  const canvasProps: CanvasProps = {
-    canvas: canvas,
-    setCanvas: setCanvas,
+  const previewProps: PreviewProps = {
     width: 380,
-    height: 200,
+    height: 200, /// 1 : 1.9
     backgroundColor: backgroundColor,
-    text: content,
+    content: content,
     font: {
-      feature: 'Arial',
-      size: fontSize,
-      color: fontColor
-    },
-    fileName: fileName
+      fontStyle,
+      fontVariant,
+      fontWeight,
+      fontSize,
+      fontFamily,
+      fontColor
+    }
   }
 
-  // useEffect(()=>{
-  //   const recentImages = getLocal(localStorageKeys.DownloadImage);
-  //   if(!recentImages){
-  //     // recentImages가 없으면 빈 배열 추가 -> 일단 하나만 저장하는걸로..
-  //     setLocal(localStorageKeys.DownloadImage, '');
-  //   }
-  // }, []);
+  const settingProps: SettingProps = {
+    content: [content, contentChange],
+    backgroundColor: [backgroundColor, backgroundColorChange],
+    fileName: [fileName, fileNameChange],
+    fontStyle: [fontStyle, fontStyleChange],
+    fontVariant: [fontVariant, fontVariantChange],
+    fontWeight: [fontWeight, fontWeightChange],
+    fontSize: [fontSize, fontSizeChange],
+    fontFamily: [fontFamily, fontFamilyChange],
+    fontColor: [fontColor, fontColorChange]
+  }
 
   return (
     <>
       <div className='app'>
-        <div className='preview'>
-          <Canvas canvasProps={canvasProps}></Canvas>
-          <div className='preview_btn'>
-            <label htmlFor='filename'>저장 파일 이름</label>
-            <input className='filename' onChange={e => fileNameChange(e.target.value)} type='text' name='filename' value={fileName} />
-            {handleDownloadClick && <button onClick={handleDownloadClick}>Download</button>}
-          </div>
-        </div>
-        <div className='setting'>
-          <div className='setting_text'>
-            <div>
-              <label htmlFor='textValue'></label>
-              <input className='text' placeholder={'텍스트를 입력해주세요.'} value={content} onChange={e => contentChange(e.target.value)} type='text' name='textValue' />
-            </div>
-            <div>
-              <label htmlFor='textSize'>글자 크기</label>
-              <input className='size' value={fontSize} onChange={e => fontSizeChange(e.target.value)} type='number' name='textSize' step={10}></input>
-              <label htmlFor='backColor'>배경 색</label>
-              <input className='color' type='text' name='backColor' value={backgroundColor} disabled></input>
-              <label htmlFor='fontColor'>글자 색</label>
-              <input className='color' type='text' name='fontColor' value={fontColor} disabled></input>
-            </div>
-
-          </div>
-
-          <div className='setting_color'>
-            <ColorPicker name={'배경 색 설정'} color={backgroundColor} handleColorChange={backgroundColorChange}></ColorPicker>
-            <ColorPicker name={'글자 색 설정'} color={fontColor} handleColorChange={fontColorChange}></ColorPicker>
-            <div></div>
-          </div>
-        </div>
+        <Preview previewProps={previewProps} fileName={fileName} />
+        <Setting settingProps={settingProps} />
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

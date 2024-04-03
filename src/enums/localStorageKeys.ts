@@ -2,4 +2,4 @@ enum localStorageKeys {
   DownloadImage = 'DownloadImage'
 }
 
-export default localStorageKeys;
+export default localStorageKeys
