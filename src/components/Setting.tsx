@@ -1,16 +1,32 @@
-import type {SettingProps} from '../types/types'
-
-import React from 'react'
+import React, {useCallback} from 'react'
 
 import ColorPicker from './../components/ColorPicker'
 import LabelInput from './../components/LabelInput'
 
-const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
-  const [content, contentChange] = settingProps.content
-  const [fontSize, fontSizeChange] = settingProps.fontSize
-  const [fontColor, fontColorChange] = settingProps.fontColor
-  const [backgroundColor, backgroundColorChange] = settingProps.backgroundColor
-  const [fileName, fileNameChange] = settingProps.fileName
+import {useRecoilState} from 'recoil'
+import {ThumnailDesignAtom} from '../recoil/ThumbnailAtom'
+import {SettingProps} from '../types/types'
+
+const Setting: React.FC<SettingProps> = ({fileName}) => {
+  const [thumbnailOption, setThumbnailOption] = useRecoilState(ThumnailDesignAtom)
+
+  const changeBackgroundColor = useCallback(
+    (color: string) => {
+      setThumbnailOption(prev => {
+        return {...prev, backgroundColor: color}
+      })
+    },
+    [setThumbnailOption]
+  )
+
+  const changeFontColor = useCallback(
+    (color: string) => {
+      setThumbnailOption(prev => {
+        return {...prev, font: {...prev.font, color: color}}
+      })
+    },
+    [setThumbnailOption]
+  )
 
   return (
     <div className='setting'>
@@ -19,10 +35,14 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           <LabelInput
             attrs={{
               type: 'text',
-              name: 'textValue',
+              id: 'textValue',
               placeholder: '제목을 입력해주세요.',
-              value: content,
-              onChange: e => contentChange(e.target.value)
+              value: thumbnailOption.content,
+              onChange: e => {
+                setThumbnailOption(prev => {
+                  return {...prev, content: e.currentTarget.value}
+                })
+              }
             }}
             caption=''
             width='450px'></LabelInput>
@@ -31,10 +51,14 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           <LabelInput
             attrs={{
               type: 'number',
-              name: 'textSize',
+              id: 'textSize',
               placeholder: '크기',
-              value: fontSize,
-              onChange: e => fontSizeChange(e.target.value),
+              value: thumbnailOption.font.size,
+              onChange: e => {
+                setThumbnailOption(prev => {
+                  return {...prev, font: {...prev.font, size: e.currentTarget.value}}
+                })
+              },
               step: '10'
             }}
             caption='글자 크기'
@@ -43,7 +67,7 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           {/* <LabelInput
             attrs={{
               type: 'number',
-              name: 'textWeight',
+              id: 'textWeight',
               placeholder: '두께',
               value: 'Bold' //fontWeight
             }}
@@ -53,7 +77,7 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           {/* <LabelInput
             attrs={{
               type: 'checkbox',
-              name: 'textStyle',
+              id: 'textStyle',
               placeholder: '기울임',
               value: 'false' //fontStyle,
             }}
@@ -63,9 +87,9 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           <LabelInput
             attrs={{
               type: 'text',
-              name: 'backColor',
+              id: 'backColor',
               placeholder: '설정된 배경 색',
-              value: backgroundColor,
+              value: thumbnailOption.backgroundColor,
               disabled: true
             }}
             caption='배경 색'
@@ -74,9 +98,9 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           <LabelInput
             attrs={{
               type: 'text',
-              name: 'fontColor',
+              id: 'fontColor',
               placeholder: '설정된 글자 색',
-              value: fontColor,
+              value: thumbnailOption.font.color,
               disabled: true
             }}
             caption='글자 색'
@@ -86,10 +110,12 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
           <LabelInput
             attrs={{
               type: 'text',
-              name: 'filename',
+              id: 'filename',
               placeholder: '저장할 파일 이름을 입력해주세요.',
-              value: fileName,
-              onChange: e => fileNameChange(e.target.value)
+              // value: fileName.current,
+              onChange: e => {
+                fileName.current = e.currentTarget.value
+              }
             }}
             caption=''
             width='365px'></LabelInput>
@@ -99,12 +125,12 @@ const Setting: React.FC<{settingProps: SettingProps}> = ({settingProps}) => {
       <div className='setting_color'>
         <ColorPicker
           name={'배경 색 설정'}
-          color={backgroundColor}
-          handleColorChange={backgroundColorChange}></ColorPicker>
+          color={thumbnailOption.backgroundColor}
+          handleColorChange={changeBackgroundColor}></ColorPicker>
         <ColorPicker
           name={'글자 색 설정'}
-          color={fontColor}
-          handleColorChange={fontColorChange}></ColorPicker>
+          color={thumbnailOption.font.color}
+          handleColorChange={changeFontColor}></ColorPicker>
         <div></div>
       </div>
     </div>

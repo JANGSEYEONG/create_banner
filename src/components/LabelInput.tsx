@@ -7,7 +7,7 @@ const LabelInput: React.FC<{
 }> = ({attrs, caption = '', width = '100px'}) => {
   return (
     <>
-      <label htmlFor={attrs.name}>{caption}</label>
+      <label htmlFor={attrs.id}>{caption}</label>
       <input {...attrs} style={{width}}></input>
     </>
   )
