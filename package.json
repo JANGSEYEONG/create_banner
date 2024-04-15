@@ -11,6 +11,7 @@
     "@types/react": "^18.2.77",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18.2.22",
+    "immer": "^10.0.4",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",

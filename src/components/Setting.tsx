@@ -1,32 +1,39 @@
-import React, {useCallback} from 'react'
+import React from 'react'
 
 import ColorPicker from './../components/ColorPicker'
 import LabelInput from './../components/LabelInput'
 
-import {useRecoilState} from 'recoil'
-import {ThumnailDesignAtom} from '../recoil/ThumbnailAtom'
 import {SettingProps} from '../types/types'
 
+import {useCanvasOptionStore} from '../store/CanvasOptionStore'
+
 const Setting: React.FC<SettingProps> = ({fileName}) => {
-  const [thumbnailOption, setThumbnailOption] = useRecoilState(ThumnailDesignAtom)
+  const {thumbnailOption} = useCanvasOptionStore(state => ({
+    thumbnailOption: state.options
+  }))
 
-  const changeBackgroundColor = useCallback(
-    (color: string) => {
-      setThumbnailOption(prev => {
-        return {...prev, backgroundColor: color}
-      })
-    },
-    [setThumbnailOption]
+  const changeContent = useCanvasOptionStore(state => state.actions.changeContent)
+  const {changeBackgroundColor, changeFontSize, changeFontColor} = useCanvasOptionStore(
+    state => state.actions
   )
 
-  const changeFontColor = useCallback(
-    (color: string) => {
-      setThumbnailOption(prev => {
-        return {...prev, font: {...prev.font, color: color}}
-      })
-    },
-    [setThumbnailOption]
-  )
+  // const changeBackgroundColor = useCallback(
+  //   (color: string) => {
+  //     setThumbnailOption(prev => {
+  //       return {...prev, backgroundColor: color}
+  //     })
+  //   },
+  //   [setThumbnailOption]
+  // )
+
+  // const changeFontColor = useCallback(
+  //   (color: string) => {
+  //     setThumbnailOption(prev => {
+  //       return {...prev, font: {...prev.font, color: color}}
+  //     })
+  //   },
+  //   [setThumbnailOption]
+  // )
 
   return (
     <div className='setting'>
@@ -39,9 +46,7 @@ const Setting: React.FC<SettingProps> = ({fileName}) => {
               placeholder: '제목을 입력해주세요.',
               value: thumbnailOption.content,
               onChange: e => {
-                setThumbnailOption(prev => {
-                  return {...prev, content: e.currentTarget.value}
-                })
+                changeContent(e.currentTarget.value)
               }
             }}
             caption=''
@@ -55,9 +60,7 @@ const Setting: React.FC<SettingProps> = ({fileName}) => {
               placeholder: '크기',
               value: thumbnailOption.font.size,
               onChange: e => {
-                setThumbnailOption(prev => {
-                  return {...prev, font: {...prev.font, size: e.currentTarget.value}}
-                })
+                changeFontSize(e.currentTarget.value)
               },
               step: '10'
             }}

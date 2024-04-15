@@ -1,4 +1,4 @@
-export type ThumnailDesign = {
+export type ThumnailOptions = {
   width: number
   height: number
   backgroundColor: string

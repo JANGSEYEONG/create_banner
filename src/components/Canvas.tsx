@@ -1,13 +1,18 @@
 import {useEffect} from 'react'
 import React from 'react'
 
-import {ThumnailDesignAtom} from '../recoil/ThumbnailAtom'
-import {useRecoilValue} from 'recoil'
+import {useCanvasOptionStore} from '../store/CanvasOptionStore'
+import {shallow} from 'zustand/shallow'
 
 // forwardRef와 함께 props 타입 지정
 const Canvas = React.forwardRef<HTMLCanvasElement>((props, ref) => {
   console.log('canvas render')
-  const thumbnailOption = useRecoilValue(ThumnailDesignAtom)
+  const {thumbnailOption} = useCanvasOptionStore(
+    state => ({
+      thumbnailOption: state.options
+    }),
+    shallow
+  )
 
   useEffect(() => {
     // ref를 사용해 캔버스에 접근
