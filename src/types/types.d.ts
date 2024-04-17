@@ -1,19 +1,17 @@
-export type PreviewProps = {
+export type ThumnailOptions = {
   width: number
   height: number
   backgroundColor: string
   content: string
   font: {
-    fontStyle: string
-    fontVariant: string
-    fontWeight: string
-    fontSize: string
-    fontFamily: string
-    fontColor: string
+    style: string
+    variant: string
+    weight: string
+    size: string
+    family: string
+    color: string
   }
 }
-
-export type CanvasProps = PreviewProps
 
 export type ColorPickerProps = {
   name: string
@@ -21,23 +19,19 @@ export type ColorPickerProps = {
   handleColorChange: (color: string) => void
 }
 
+export type PreviewProps = {
+  fileName: MutableRefObject<string>
+}
+
 export type SettingProps = {
-  content: [string, (state: string) => void]
-  backgroundColor: [string, (state: string) => void]
-  fileName: [string, (state: string) => void]
-  fontStyle: [string, (state: string) => void]
-  fontVariant: [string, (state: string) => void]
-  fontWeight: [string, (state: string) => void]
-  fontSize: [string, (state: string) => void]
-  fontFamily: [string, (state: string) => void]
-  fontColor: [string, (state: string) => void]
+  fileName: MutableRefObject<string>
 }
 
 export type LabelInputProps = {
   type: string
-  name: string
+  id: string
   placeholder: string
-  value: string
+  value?: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   step?: string
   disabled?: boolean

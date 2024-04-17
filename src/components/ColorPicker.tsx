@@ -14,7 +14,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({name, color, handleColorChange
         <input
           className={[styles.chkColor, styles.item].join(' ')}
           value={color}
-          onChange={e => handleColorChange(e.target.value)}></input>
+          onChange={e => handleColorChange(e.currentTarget.value)}></input>
         <div className={styles.item}>
           <CirclePicker
             width={'500px'}
